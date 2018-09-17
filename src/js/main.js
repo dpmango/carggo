@@ -21,6 +21,8 @@ $(document).ready(function() {
     initSelectric();
     initValidations();
 
+    initaos();
+
     // development helper
     _window.on("resize", debounce(setBreakpoint, 200));
 
@@ -45,6 +47,10 @@ $(document).ready(function() {
   //////////
   // COMMON
   //////////
+
+  function initaos() {
+    AOS.init();
+  }
 
   function legacySupport() {
     // svg support for laggy browsers
