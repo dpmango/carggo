@@ -2,21 +2,20 @@
 header.header
   .container
     .header__wrapper
-      a(href="#").header__logo
-        +icon('ico-email')
+      a(href="home.html").header__logo
+        img(src="img/logotype.svg", alt="")
       ul.header__menu
-        - var list = ["Homepage", "Shop", "Blog", "Lorem"]
-          each item in list
-            li
-              a.header__menu-link(href="#")=item
-      
-      .header__cta
-        .header__cart
-          +icon('ico-email')
-      
-      .header__hamburger
-        .hamburger.hamburger--squeeze(js-hamburger)
-          .hamburger-box
-            .hamburger-inner
-        
+        li
+          a.header__menu-link(href="#section-about") About
+        li
+          a.header__menu-link(href="#section-for-shippers") For Shippres
+        li
+          a.header__menu-link(href="#section-for-carriers") For Carriers
+        li
+          a.header__menu-link(href="#section-platform") The Platform
+        li
+          a.header__menu-link(href="#section-careers") Careers
+        li
+          a.header__menu-link(href="#section-contacts") Contacts
+      a.header__btn(href="login.html") SIGN UP
 // HEADER :: END

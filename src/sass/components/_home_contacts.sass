@@ -1,0 +1,37 @@
+.contacts
+  background: url(../img/map.jpg) center center no-repeat
+  background-size: cover
+  padding: 103px 0 168px
+  text-align: left
+  margin-top: 30px
+  &__title
+    margin: 0
+    font-size: 39px
+    line-height: 39px
+    color: #fff
+    font-family: $extrabold
+    margin-left: -3px
+    padding-bottom: 10px
+  &__item
+    margin-top: 31px
+    margin-left: -3px
+  a
+    display: inline-block
+    max-width: 280px
+    color: #fff
+    transition: all $transitionSpeed $ease
+    font-family: $regular
+    font-size: 21px
+    line-height: 31px
+    &:hover
+      color: $colorRed
+
++r($tablet)
+  .contacts
+    padding: 53px 0 142px
+    &__title
+      margin-left: 0
+      padding-bottom: 0px
+    &__item
+      margin-left: 0
+      margin-top: 31px

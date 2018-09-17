@@ -1,0 +1,34 @@
+---
+title: Login
+bodyClass: login-page
+---
+extends shared/_layout
+block content
+  
+  // dummy contents & instructions
+  // REMOVE COMPLEATLY, it have nothing to do with project code - examples only
+
+
+  // BEGIN SECTION :: login
+  section.login
+    .container
+      form(action="#")
+        .login__buttons
+          span
+            input#radio-shipper.radio(type='radio' name='qwe' checked value='radio-shipper')
+            label(for='radio-shipper') LOG IN AS a SHIPPER
+          span
+            input#radio-carrier.radio(type='radio' name='qwe' value='radio-carrier')
+            label(for='radio-carrier') LOG IN AS a CARRIER
+        .login__container
+          p.login__title Shipper’s login
+          .input-container
+            label(for="t1") Email
+            input#t1(type="text")
+          .input-container
+            label(for="t2") Password
+            input#t2(type="text")
+          input.login__btn(type="submit" value="LOGIN")
+        a.login__btn.login__btn--sign(href="#") SIGN UP
+  
+  // END SECTION :: login

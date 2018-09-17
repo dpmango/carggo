@@ -1,0 +1,70 @@
+---
+title: Homepage
+bodyClass: homepage
+---
+extends shared/_layout
+block content
+  
+  // dummy contents & instructions
+  // REMOVE COMPLEATLY, it have nothing to do with project code - examples only
+
+
+  // BEGIN SECTION :: firstscreen
+  section
+    .firstscreen.firstscreen--team
+      .container
+        h1 Our team <br>is our core asset
+  // END SECTION :: firstscreen
+
+  // BEGIN SECTION :: team-info
+  section
+    .team-info
+      .container
+        p To deliver our ideas we need people. As the part of Carggo team you will work alongside experts in freight transportation, engineering and logistics. We give you freedom to bring your ideas to work that you will be looking forward to.
+        p Carggo is the new digital logistics platform in the industry that spends over $8 trillion annually. We are among the first ones to enhance its tools and services by bringing it online and making it easier. We are committed to making logistics reliable, affordable and transparent. Join Carggo today to become the part of the global change!
+        p See available positions below
+  // END SECTION :: team-info
+
+  // BEGIN SECTION :: categories
+  section
+    .categories
+      .container
+        .categories__grid
+          .categories__item
+            select
+              option All categories
+              option Engineering
+              option IT
+              option Sales
+              option Operations
+              option Administration
+          .categories__item
+            select
+              option All locations
+              option Vilnus
+              option Naperville
+              option Sales
+        img(src="img/categories.jpg", alt="")
+  // END SECTION :: categories
+
+  // BEGIN SECTION :: form-block
+  section
+    .form-block.form-block--team
+      .container
+        .form-block__title If you didn’t find the desired position in the list, fill out the form and hit the Apply now button. We will contact you once the position you want becomes available
+        form.form-block__form(action="")
+          .form-block__grid
+            .form-block__item
+              label(for="t1") Name
+              input#t1(type="text")
+            .form-block__item
+              label(for="t2") Email
+              input#t2(type="text")
+            .form-block__item
+              label(for="t3") Phone
+              input#t3(type="text")
+          .form-block__textarea
+            label(for="t4") Message
+            textarea#t4
+          input.form-block__btn(type="submit" value="Apply now")
+  // END SECTION :: form-block

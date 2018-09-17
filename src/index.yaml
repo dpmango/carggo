@@ -1,7 +1,13 @@
 ProjectTitle: Project-name
 
 PageList:
-- file: homepage.html
-  ready: 100
+- file: home.html
+  ready: 20
+- file: login.html
+  ready: 20
+- file: team.html
+  ready: 20
 - file: page.html
   ready: 0
+- file: homepage.html
+  ready: 10

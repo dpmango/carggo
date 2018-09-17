@@ -1,0 +1,34 @@
+.categories
+  padding: 69px 0 134px
+  .container
+    max-width: 1436px
+  img
+    max-width: 1120px
+    width: 100%
+    margin-top: 29px
+  &__grid
+    display: flex
+    align-items: flex-start
+    justify-content: flex-start
+  &__item
+    max-width: 320px
+    width: 100%
+    margin-right: 25px
+
++r($tablet)
+  .categories
+    padding: 0 0 30px
+    img
+      display: none
+      margin-top: 15px
+    &__grid
+      flex-direction: column
+      align-items: flex-start
+      justify-content: flex-start
+    &__item
+      width: calc(100% + 44px)
+      margin-top: 30px
+      margin: 30px -22px 0
+
+      &:first-child
+        margin-top: 0
