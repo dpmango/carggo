@@ -391,8 +391,8 @@ $(document).ready(function() {
       unhighlight: validateUnhighlight,
       submitHandler: validateSubmitHandler,
       rules: {
-        last_name: "required",
         first_name: "required",
+        // phone: "required",
         email: {
           required: true,
           email: true
@@ -402,22 +402,25 @@ $(document).ready(function() {
           minlength: 6
         }
         // phone: validatePhone
-      },
-      messages: {
-        last_name: "Заполните это поле",
-        first_name: "Заполните это поле",
+      }
+    });
+    $(".js-form").validate({
+      errorPlacement: validateErrorPlacement,
+      highlight: validateHighlight,
+      unhighlight: validateUnhighlight,
+      submitHandler: validateSubmitHandler,
+      rules: {
+        first_name: "required",
+        // phone: "required",
         email: {
-          required: "Заполните это поле",
-          email: "Email содержит неправильный формат"
+          required: true,
+          email: true
         },
         password: {
-          required: "Заполните это поле",
-          email: "Пароль мимимум 6 символов"
+          required: true,
+          minlength: 6
         }
-        // phone: {
-        //     required: "Заполните это поле",
-        //     minlength: "Введите корректный телефон"
-        // }
+        // phone: validatePhone
       }
     });
   }
@@ -480,6 +483,7 @@ $(document).ready(function() {
           _this.done();
         }
       });
+      // AOS.refresh();
     }
   });
 

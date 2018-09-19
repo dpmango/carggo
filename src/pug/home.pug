@@ -1,5 +1,5 @@
 ---
-title: Homepage
+title: Carggo
 bodyClass: homepage
 ---
 extends shared/_layout
@@ -143,29 +143,28 @@ block content
         p.platform__sub-title Our 70,000 lines of code don’t lie. Our algorithm adjusts  to your expectations so that you can book your loads  and track them hassle-free. Full scope of tools on our advanced logistical platform is only few taps away
       img(src="img/platform.jpg", srcset="img/platform@2x.jpg 2x", alt="")
       .container
-        a.platform__btn(href="#" open-form) get the demo
-        p ^ click for opening form ^
+        a.platform__btn(href="#section-demo" open-form) get the demo
   // END SECTION :: platform
 
   // BEGIN SECTION :: form-block
-  section(data-aos='fade-up')
+  section#section-demo(data-aos='fade-up')
     .form-block.form-block-hidden
       .container
         .form-block__close
           a(href="#" close-form)
             <svg width="42" height="42" xmlns="http://www.w3.org/2000/svg"><g stroke="#252525" fill="none" fill-rule="evenodd"><path d="M35.392 35.735c-8.001 7.812-20.821 7.658-28.632-.344-7.812-8.002-7.658-20.82.344-28.632 8-7.812 20.82-7.657 28.632.344 7.812 8.002 7.657 20.82-.344 28.632zM30.173 13L13 29.765M13 13l16.766 17.173"/></g></svg>
         .form-block__title Please fill in all required fields and we will contact you shortly to provide a quote
-        form.form-block__form(action="")
+        form.form-block__form.js-form(action="")
           .form-block__grid
             .form-block__item
               label(for="t1") Name
-              input#t1(type="text")
+              input#t1(type="text" name="first_name" required)
             .form-block__item
               label(for="t2") Email
-              input#t2(type="text")
+              input#t2(type="text" name="email" required)
             .form-block__item
               label(for="t3") Phone
-              input#t3(type="text")
+              input#t3(type="tel" name="phone" required)
           .form-block__textarea
             label(for="t4") Message
             textarea#t4
@@ -191,7 +190,7 @@ block content
         .contacts__item
           a(href="#") Upes 23, GREEN HALL 2, <br>Vilnius 08107, Lithuania <br>Phone: +370 694 202 72
         .contacts__item
-          a(href="#") info@carggo.com
+          a(href="mailto:info@carggo.com") info@carggo.com
   // END SECTION :: contacts
   
 

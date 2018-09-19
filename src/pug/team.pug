@@ -1,5 +1,5 @@
 ---
-title: Homepage
+title: Team
 bodyClass: homepage
 ---
 extends shared/_layout
@@ -20,9 +20,9 @@ block content
   section
     .team-info
       .container
-        p To deliver our ideas we need people. As the part of Carggo team you will work alongside experts in freight transportation, engineering and logistics. We give you freedom to bring your ideas to work that you will be looking forward to.
-        p Carggo is the new digital logistics platform in the industry that spends over $8 trillion annually. We are among the first ones to enhance its tools and services by bringing it online and making it easier. We are committed to making logistics reliable, affordable and transparent. Join Carggo today to become the part of the global change!
-        p See available positions below
+        p To turn our ideas into finished projects we need people. We invite talented developers, engineers, and business professionals to work alongside freight transportation, logistics, and business experts. We offer full freedom to bring your ideas to work and watch them to become real solutions.
+        p Carggo’s core values are reliability, transparency, and convenience. We are committed to applying these values to both our business practices and at a workplace. When you join Carggo you join the young motivated team united by a common goal.
+        p For office perks please refer to job openings below.
   // END SECTION :: team-info
 
   // BEGIN SECTION :: categories
@@ -41,7 +41,7 @@ block content
           .categories__item
             select
               option All locations
-              option Vilnus
+              option Vilnius
               option Naperville
               option Sales
         img(src="img/categories.jpg", alt="")
@@ -52,17 +52,17 @@ block content
     .form-block.form-block--team
       .container
         .form-block__title If you didn’t find the desired position in the list, fill out the form and hit the Apply now button. We will contact you once the position you want becomes available
-        form.form-block__form(action="")
+        form.form-block__form.js-form(action="#")
           .form-block__grid
             .form-block__item
               label(for="t1") Name
-              input#t1(type="text")
+              input#t1(type="text" name="first_name" required)
             .form-block__item
               label(for="t2") Email
-              input#t2(type="text")
+              input#t2(type="text" name="email" required)
             .form-block__item
               label(for="t3") Phone
-              input#t3(type="text")
+              input#t3(type="tel" name="phone" required)
           .form-block__textarea
             label(for="t4") Message
             textarea#t4
