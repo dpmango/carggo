@@ -10,7 +10,7 @@ block content
 
 
   // BEGIN SECTION :: firstscreen
-  section(data-aos='fade-up')
+  section(data-aos='fade-up' data-section='0')
     .firstscreen
       .container
         h1 The First Digital Party Logistics Provider
@@ -19,7 +19,7 @@ block content
   // END SECTION :: firstscreen
 
   // BEGIN SECTION :: info
-  section#section-about(data-aos='fade-up')
+  section#section-about(data-aos='fade-up' data-section='1')
     .info
       .container
         p Carggo was created in 2016 to upgrade logistics tools and services. Our team of IT engineers and logistics specialists are continually refining Carggo platform to meet your needs, maintain fair pricing, and open doors to improved operational <br>experiences 
@@ -33,7 +33,7 @@ block content
   // END SECTION :: freedom
 
   // BEGIN SECTION :: typical-shippers
-  section#section-for-shippers(data-aos='fade-up')
+  section#section-for-shippers(data-aos='fade-up' data-section='2')
     .typical
       img(src="img/freedom-small.svg", alt="")
       .container
@@ -85,7 +85,7 @@ block content
   // END SECTION :: shippers-advantages
 
   // BEGIN SECTION :: typical-carriers
-  section#section-for-carriers(data-aos='fade-up')
+  section#section-for-carriers(data-aos='fade-up' data-section='3')
     .typical.typical--carriers
       img(src="img/freedom-small.svg", alt="")
       .container
@@ -136,7 +136,7 @@ block content
   // END SECTION :: carriers-advantages
 
   // BEGIN SECTION :: platform
-  section#section-platform(data-aos='fade-up')
+  section#section-platform(data-aos='fade-up' data-section='4')
     .platform
       .container
         p.platform__title the platform
@@ -172,7 +172,7 @@ block content
   // END SECTION :: form-block
 
   // BEGIN SECTION :: team
-  section#section-careers(data-aos='fade-up')
+  section#section-careers(data-aos='fade-up' data-section='5')
     .team
       .container
         p.team__title The Team
@@ -181,14 +181,19 @@ block content
   // END SECTION :: team
 
   // BEGIN SECTION :: contacts
-  section#section-contacts(data-aos='fade-up')
+  section#section-contacts(data-aos='fade-up' data-section='6')
     .contacts
+      .contacts__map.usa-map.is-active
+        iframe(src='https://snazzymaps.com/embed/99764', width='100%', height='100%', style='border:none;')
+      .contacts__map.lit-map
+        iframe(src='https://snazzymaps.com/embed/99767', width='100%', height='100%', style='border:none;')
+
       .container
         p.contacts__title Contact us
         .contacts__item
-          a(href="#") 1315 Macom Dr. Suite #003 <br>Naperville, IL, USA 60564 <br>Phone: +312 635-6005
+          a(href="#" js-open-usa) 1315 Macom Dr. Suite #003 <br>Naperville, IL, USA 60564 <br>Phone: +312 635-6005
         .contacts__item
-          a(href="#") Upes 23, GREEN HALL 2, <br>Vilnius 08107, Lithuania <br>Phone: +370 694 202 72
+          a(href="#" js-open-lit) Upes 23, GREEN HALL 2, <br>Vilnius 08107, Lithuania <br>Phone: +370 694 202 72
         .contacts__item
           a(href="mailto:info@carggo.com") info@carggo.com
   // END SECTION :: contacts

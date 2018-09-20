@@ -43,10 +43,9 @@
     font-size: 18px
     margin: 0 auto
     padding: 0
-    li
+    a
       display: inline-block
       margin: 0 15px
-    a
       transition: color .25s $ease
       font-family: $extrabold
       font-size: 14px
@@ -55,6 +54,15 @@
       transition: all $transitionSpeed $ease
       &:hover
         color: $colorRed
+
+.homepage
+  .header
+    &__menu
+      a
+        &:focus
+          color: #fff
+        &.is-active
+          color: $colorRed
 
 
 +r($desktop)
@@ -66,9 +74,8 @@
         height: 23px
         width: auto
     &__menu
-      li
-        margin: 0 8px
       a
+        margin: 0 8px
         font-size: 12px
     &__btn
       font-size: 12px

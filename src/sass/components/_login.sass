@@ -24,13 +24,29 @@
       margin-top: 30px
       margin-bottom: -2px
       text-align: left
-    input[type=text]
-      border: 1px solid #C4C4C4
-      font-family: $regular
-      font-size: 22px
-      padding: 12px 14px
-      background: transparent
-      width: 100%
+      &.ui-input__validation
+        font-size: 12px
+        line-height: 1
+        padding: 6px 7px
+        background: #fff
+        border: 1px solid $colorRed
+        position: absolute
+        margin: 0
+        bottom: -18px
+        left: 0
+        &:after
+          display: block
+          content: ''
+          position: absolute
+          left: 15px
+          top: -5px
+          width: 8px
+          height: 8px
+          background: #fff
+          border: 1px solid $colorRed
+          transform: rotate(-45deg)
+          border-left: none
+          border-bottom: none
   &__title
     font-size: 39px
     line-height: 1
@@ -38,9 +54,26 @@
     width: 100%
     font-family: $extrabold
     margin: 0 0 -10px 0
+    display: none
+    &.is-active
+      display: block
   .input-container
     display: flex
     flex-direction: column
+    position: relative
+    input
+      border: 1px solid #C4C4C4
+      font-family: $regular
+      font-size: 22px
+      padding: 12px 14px
+      background: transparent
+      width: 100%
+      transition: all $transitionSpeed $ease
+      &:focus
+        border: 1px solid $colorRed
+      &.has-error
+        input
+          border: 1px solid $colorRed
   &__btn
     font-size: 15px
     line-height: 1
@@ -110,6 +143,24 @@
         background: $colorRed
       &:checked + label:after
         opacity: 1
+  &__show-pass
+    position: absolute
+    right: 0
+    bottom: 0
+    width: 34px
+    height: 22px
+    right: 10px
+    border: none
+    background: none
+    cursor: pointer
+    bottom: 10px
+    svg
+      path
+        transition: all $transitionSpeed $ease
+    &:hover
+      svg
+        path
+          fill: $colorRed
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
   .login

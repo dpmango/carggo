@@ -12,7 +12,7 @@ $(document).ready(function() {
   function pageReady() {
     legacySupport();
     updateHeaderActiveClass();
-    initHeaderScroll();
+    // initHeaderScroll();
 
     initPopups();
     initSliders();
@@ -20,6 +20,10 @@ $(document).ready(function() {
     initMasks();
     initSelectric();
     initValidations();
+
+    pagination();
+    _window.on("scroll", throttle(pagination, 50));
+    _window.on("resize", debounce(pagination, 250));
 
     initaos();
 
@@ -84,40 +88,93 @@ $(document).ready(function() {
   // HEADER SCROLL
   // add .header-static for .page or body
   // to disable sticky header
-  function initHeaderScroll() {
-    _window.on(
-      "scroll",
-      throttle(function(e) {
-        var vScroll = _window.scrollTop();
-        var header = $(".header").not(".header--static");
-        var headerHeight = header.height();
-        var firstSection =
-          _document.find(".page__content div:first-child()").height() -
-          headerHeight;
-        var visibleWhen =
-          Math.round(_document.height() / _window.height()) > 2.5;
+  // function initHeaderScroll() {
+  //   _window.on(
+  //     "scroll",
+  //     throttle(function(e) {
+  //       var vScroll = _window.scrollTop();
+  //       var header = $(".header").not(".header--static");
+  //       var headerHeight = header.height();
+  //       var firstSection =
+  //         _document.find(".page__content div:first-child()").height() -
+  //         headerHeight;
+  //       var visibleWhen =
+  //         Math.round(_document.height() / _window.height()) > 2.5;
 
-        if (visibleWhen) {
-          if (vScroll > headerHeight) {
-            header.addClass("is-fixed");
-          } else {
-            header.removeClass("is-fixed");
-          }
-          if (vScroll > firstSection) {
-            header.addClass("is-fixed-visible");
-          } else {
-            header.removeClass("is-fixed-visible");
-          }
-        }
-      }, 10)
-    );
-  }
+  //       if (visibleWhen) {
+  //         if (vScroll > headerHeight) {
+  //           header.addClass("is-fixed");
+  //         } else {
+  //           header.removeClass("is-fixed");
+  //         }
+  //         if (vScroll > firstSection) {
+  //           header.addClass("is-fixed-visible");
+  //         } else {
+  //           header.removeClass("is-fixed-visible");
+  //         }
+  //       }
+  //     }, 10)
+  //   );
+  // }
 
   // HAMBURGER TOGGLER
   _document.on("click", "[js-hamburger]", function() {
     $(this).toggleClass("is-active");
     $(".mobile-navi").toggleClass("is-active");
   });
+
+  ////////////////////
+  // CHANGE TITLE LOGIN PAGE
+  ////////////////////
+  _document.on("click", "[js-shipper-button]", function() {
+    $(".carrier-title").fadeOut(0);
+    $(".shipper-title").fadeIn();
+  });
+
+  _document.on("click", "[js-carrier-button]", function() {
+    $(".shipper-title").fadeOut(0);
+    $(".carrier-title").fadeIn();
+  });
+
+  ////////////////////
+  // CHANGE TITLE LOGIN PAGE
+  ////////////////////
+
+  ////////////////////
+  // CHANGE MAPS
+  ////////////////////
+
+  _document.on("click", "[js-open-lit]", function() {
+    $(".contacts__map").removeClass("is-active");
+    $(".lit-map").addClass("is-active");
+  });
+
+  _document.on("click", "[js-open-usa]", function() {
+    $(".contacts__map").removeClass("is-active");
+    $(".usa-map").addClass("is-active");
+  });
+
+  ////////////////////
+  // CHANGE MAPS
+  ////////////////////
+
+  ////////////////////
+  // SHOW PASSWORD TOGGLE
+  ////////////////////
+
+  _document.on("click", "[js-show-pass]", function() {
+    var x = document.getElementById("l2");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  });
+
+  ////////////////////
+  // SHOW PASSWORD TOGGLE
+  ////////////////////
+
   ////////////////////
   // FORM TOGGLER
   ////////////////////
@@ -391,15 +448,15 @@ $(document).ready(function() {
       unhighlight: validateUnhighlight,
       submitHandler: validateSubmitHandler,
       rules: {
-        first_name: "required",
+        // first_name: "required",
         // phone: "required",
         email: {
           required: true,
           email: true
         },
         password: {
-          required: true,
-          minlength: 6
+          required: true
+          // minlength: 6
         }
         // phone: validatePhone
       }
@@ -423,6 +480,38 @@ $(document).ready(function() {
         // phone: validatePhone
       }
     });
+  }
+
+  //////////
+  // PAGINATION
+  //////////
+
+  function pagination() {
+    // Cache selectors
+    var paginationAnchors = $(".header__menu .header__menu-link");
+    var sections = $(".homepage [data-section]");
+    var headerHeight = $(".header").height();
+    var vScroll = _window.scrollTop();
+
+    // Get id of current scroll item
+    var cur = sections.map(function() {
+      if ($(this).offset().top < vScroll + headerHeight) return this;
+    });
+    // Get current element
+    cur = $(cur[cur.length - 1]);
+    var id = cur && cur.length ? cur.data("section") : "1";
+    var headerClass = cur && cur.length ? cur.data("header") : "";
+
+    // update hash
+    setTimeout(function() {
+      window.location.hash = id;
+    }, 1000);
+
+    // Set/remove active class
+    paginationAnchors
+      .removeClass("is-active")
+      .filter("[data-section='" + id + "']")
+      .addClass("is-active");
   }
 
   //////////
@@ -483,7 +572,8 @@ $(document).ready(function() {
           _this.done();
         }
       });
-      // AOS.refresh();
+
+      AOS.refresh();
     }
   });
 
