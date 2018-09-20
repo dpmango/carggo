@@ -26,10 +26,10 @@ $(document).ready(function() {
 
   function pageReady() {
     initMasks();
+    initAutogrow();
     initSelectric();
     initValidations();
 
-    closeMobileMenu();
   }
 
   // this is a master function which should have all functionality
@@ -90,19 +90,12 @@ $(document).ready(function() {
     var headerHeight = $('.header').height();
     var targetScroll = el.offset().top - headerHeight
 
-    console.log(el ,'scrolling to ' + targetScroll)
     TweenLite.to(window, 1, {
       scrollTo: targetScroll,
       ease: easingSwing
     });
   }
 
-
-  // HAMBURGER TOGGLER
-  _document.on("click", "[js-hamburger]", function() {
-    $(this).toggleClass("is-active");
-    $(".mobile-navi").toggleClass("is-active");
-  });
 
   ////////////////////
   // CHANGE TITLE LOGIN PAGE
@@ -143,7 +136,8 @@ $(document).ready(function() {
   // SHOW PASSWORD TOGGLE
   ////////////////////
 
-  _document.on("click", "[js-show-pass]", function() {
+  _document.on("click", "[js-show-pass]", function(e) {
+    e.stopPropagation();
     var x = document.getElementById("l2");
     if (x.type === "password") {
       x.type = "text";
@@ -168,16 +162,6 @@ $(document).ready(function() {
     $(".form-block-hidden").slideToggle();
   });
 
-  ////////////////////
-  // FORM TOGGLER
-  ////////////////////
-
-  function closeMobileMenu() {
-    $("[js-hamburger]").removeClass("is-active");
-    $(".mobile-navi").removeClass("is-active");
-  }
-
-
   //////////
   // SLIDERS
   //////////
@@ -189,6 +173,13 @@ $(document).ready(function() {
   ////////////
   // UI
   ////////////
+  function initAutogrow(){
+    if ( $('[js-autogrow]').length > 0) {
+      $('[js-autogrow]').each(function(i, el){
+        new Autogrow(el)
+      })
+    }
+  }
 
   // Masked input
   function initMasks() {

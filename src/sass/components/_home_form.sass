@@ -74,7 +74,8 @@
       background: transparent
       width: 100%
       resize: none
-      min-height: 150px
+      box-sizing: content-box
+      min-height: calc(150px - 24px)
       transition: all $transitionSpeed $ease
       &:focus
         border: 1px solid $colorRed
@@ -136,7 +137,7 @@
         font-size: 16px
         padding: 10px 12px
       textarea
-        min-height: 90px
+        min-height: calc(90px - 24px)
     &__grid
       flex-wrap: wrap
     &__item
