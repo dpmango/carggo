@@ -51,8 +51,8 @@ body, html
     padding-right: 22px
 
 input
-  -moz-appearance: none;
-  -webkit-appearance: none;
+  -moz-appearance: none
+  -webkit-appearance: none
 
 .page
   overflow: hidden
@@ -68,3 +68,15 @@ input
   padding: 5px
   font-size: 12px
   border-bottom-left-radius: 5px
+
+
+.js-transition-overlay
+  position: fixed
+  top: 0
+  left: -100%
+  bottom: 0
+  z-index: 7
+  background: #252525
+  width: 100vw
+  will-change: transform
+  backface-visibility: hidden

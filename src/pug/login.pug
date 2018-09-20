@@ -1,14 +1,13 @@
 ---
 title: Login
-bodyClass: login-page
 ---
 extends shared/_layout
 block content
   
   // BEGIN SECTION :: login
-  section.login(data-aos='fade-up')
+  section.login
     .container
-      form.js-registration-form(action="#")
+      form.js-registration-form(data-aos='fade-up' action="#")
         .login__buttons
           span
             input#radio-shipper.radio(type='radio' name='radio-group' checked value='radio-shipper')

@@ -5,38 +5,36 @@ $(document).ready(function() {
 
   var _window = $(window);
   var _document = $(document);
+  var easingSwing = [0.02, 0.01, 0.47, 1]; // default jQuery easing for anime.js
+  var lastClickEl;
 
   ////////////
   // READY - triggered when PJAX DONE
   ////////////
-  function pageReady() {
-    legacySupport();
-    updateHeaderActiveClass();
-    // initHeaderScroll();
 
-    initScrollMonitor();
+  // single time initialization
+  legacySupport();
+  initaos();
+  _window.on("resize", debounce(setBreakpoint, 200));
+
+  // on transition change
+  getPaginationSections();
+  pagination();
+  _window.on("scroll", throttle(pagination, 50));
+  _window.on("resize", debounce(pagination, 250));
+
+
+  function pageReady() {
     initMasks();
     initSelectric();
     initValidations();
 
-    pagination();
-    _window.on("scroll", throttle(pagination, 50));
-    _window.on("resize", debounce(pagination, 250));
-
-    initaos();
-
-    // development helper
-    _window.on("resize", debounce(setBreakpoint, 200));
-
+    closeMobileMenu();
   }
 
   // this is a master function which should have all functionality
   pageReady();
 
-  // some plugins work best with onload triggers
-  _window.on("load", function() {
-    // your functions
-  });
 
   //////////
   // COMMON
@@ -63,49 +61,42 @@ $(document).ready(function() {
     .on("click", '[href="#"]', function(e) {
       e.preventDefault();
     })
-    .on("click", 'a[href^="#section"]', function() {
+    .on('click', 'a[href]', function(e){
+      if ( Barba.Pjax.transitionProgress ){
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      if (e.currentTarget.href === window.location.href) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    })
+    .on("click", 'a[href^="#section"]', function(e) {
       // section scroll
       var el = $(this).attr("href");
-      $("body, html").animate(
-        {
-          scrollTop: $(el).offset().top - 100
-        },
-        1000
-      );
+
+      if ( $(el).length === 0 ){
+        lastClickEl = $(this).get(0)
+        Barba.Pjax.goTo($('.header__logo').attr('href'))
+      } else {
+        scrollToSection($(el))
+      }
+
       return false;
     });
 
-  // HEADER SCROLL
-  // add .header-static for .page or body
-  // to disable sticky header
-  // function initHeaderScroll() {
-  //   _window.on(
-  //     "scroll",
-  //     throttle(function(e) {
-  //       var vScroll = _window.scrollTop();
-  //       var header = $(".header").not(".header--static");
-  //       var headerHeight = header.height();
-  //       var firstSection =
-  //         _document.find(".page__content div:first-child()").height() -
-  //         headerHeight;
-  //       var visibleWhen =
-  //         Math.round(_document.height() / _window.height()) > 2.5;
+  function scrollToSection(el){
+    var headerHeight = $('.header').height();
+    var targetScroll = el.offset().top - headerHeight
 
-  //       if (visibleWhen) {
-  //         if (vScroll > headerHeight) {
-  //           header.addClass("is-fixed");
-  //         } else {
-  //           header.removeClass("is-fixed");
-  //         }
-  //         if (vScroll > firstSection) {
-  //           header.addClass("is-fixed-visible");
-  //         } else {
-  //           header.removeClass("is-fixed-visible");
-  //         }
-  //       }
-  //     }, 10)
-  //   );
-  // }
+    console.log(el ,'scrolling to ' + targetScroll)
+    TweenLite.to(window, 1, {
+      scrollTo: targetScroll,
+      ease: easingSwing
+    });
+  }
+
 
   // HAMBURGER TOGGLER
   _document.on("click", "[js-hamburger]", function() {
@@ -117,12 +108,12 @@ $(document).ready(function() {
   // CHANGE TITLE LOGIN PAGE
   ////////////////////
   _document.on("click", "[js-shipper-button]", function() {
-    $(".carrier-title").fadeOut(0);
+    $(".carrier-title").hide();
     $(".shipper-title").fadeIn();
   });
 
   _document.on("click", "[js-carrier-button]", function() {
-    $(".shipper-title").fadeOut(0);
+    $(".shipper-title").hide();
     $(".carrier-title").fadeIn();
   });
 
@@ -186,21 +177,6 @@ $(document).ready(function() {
     $(".mobile-navi").removeClass("is-active");
   }
 
-  // SET ACTIVE CLASS IN HEADER
-  // * could be removed in production and server side rendering when header is inside barba-container
-  function updateHeaderActiveClass() {
-    $(".header__menu li").each(function(i, val) {
-      if (
-        $(val)
-          .find("a")
-          .attr("href") == window.location.pathname.split("/").pop()
-      ) {
-        $(val).addClass("is-active");
-      } else {
-        $(val).removeClass("is-active");
-      }
-    });
-  }
 
   //////////
   // SLIDERS
@@ -213,22 +189,6 @@ $(document).ready(function() {
   ////////////
   // UI
   ////////////
-
-  // textarea autoExpand
-  _document
-    .one("focus.autoExpand", ".ui-group textarea", function() {
-      var savedValue = this.value;
-      this.value = "";
-      this.baseScrollHeight = this.scrollHeight;
-      this.value = savedValue;
-    })
-    .on("input.autoExpand", ".ui-group textarea", function() {
-      var minRows = this.getAttribute("data-min-rows") | 0,
-        rows;
-      this.rows = minRows;
-      rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 17);
-      this.rows = minRows + rows;
-    });
 
   // Masked input
   function initMasks() {
@@ -247,50 +207,6 @@ $(document).ready(function() {
     });
   }
 
-  ////////////
-  // SCROLLMONITOR - WOW LIKE
-  ////////////
-  function initScrollMonitor() {
-    $(".wow").each(function(i, el) {
-      var elWatcher = scrollMonitor.create($(el));
-
-      var delay;
-      if ($(window).width() < 768) {
-        delay = 0;
-      } else {
-        delay = $(el).data("animation-delay");
-      }
-
-      var animationClass = $(el).data("animation-class") || "wowFadeUp";
-
-      var animationName = $(el).data("animation-name") || "wowFade";
-
-      elWatcher.enterViewport(
-        throttle(
-          function() {
-            $(el).addClass(animationClass);
-            $(el).css({
-              "animation-name": animationName,
-              "animation-delay": delay,
-              visibility: "visible"
-            });
-          },
-          100,
-          {
-            leading: true
-          }
-        )
-      );
-      // elWatcher.exitViewport(throttle(function() {
-      //   $(el).removeClass(animationClass);
-      //   $(el).css({
-      //     'animation-name': 'none',
-      //     'animation-delay': 0,
-      //     'visibility': 'hidden'
-      //   });
-      // }, 100));
-    });
-  }
 
   ////////////////
   // FORM VALIDATIONS
@@ -398,27 +314,31 @@ $(document).ready(function() {
   //////////
   // PAGINATION
   //////////
+  var paginationAnchors, sections
+
+  function getPaginationSections() {
+    paginationAnchors = $(".header__menu .header__menu-link");
+    sections = $(".page__content [data-section]");
+  }
 
   function pagination() {
     // Cache selectors
-    var paginationAnchors = $(".header__menu .header__menu-link");
-    var sections = $(".homepage [data-section]");
     var headerHeight = $(".header").height();
     var vScroll = _window.scrollTop();
 
+    if ( sections.length === 0 ){
+      paginationAnchors
+        .removeClass("is-active")
+      return false
+    }
+
     // Get id of current scroll item
     var cur = sections.map(function() {
-      if ($(this).offset().top < vScroll + headerHeight) return this;
+      if ($(this).offset().top <= vScroll + headerHeight) return this;
     });
     // Get current element
     cur = $(cur[cur.length - 1]);
     var id = cur && cur.length ? cur.data("section") : "1";
-    var headerClass = cur && cur.length ? cur.data("header") : "";
-
-    // update hash
-    setTimeout(function() {
-      window.location.hash = id;
-    }, 1000);
 
     // Set/remove active class
     paginationAnchors
@@ -430,73 +350,102 @@ $(document).ready(function() {
   //////////
   // BARBA PJAX
   //////////
-  var easingSwing = [0.02, 0.01, 0.47, 1]; // default jQuery easing for anime.js
 
   Barba.Pjax.Dom.containerClass = "page";
 
-  var FadeTransition = Barba.BaseTransition.extend({
+  var OverlayTransition = Barba.BaseTransition.extend({
     start: function() {
-      Promise.all([this.newContainerLoading, this.fadeOut()]).then(
-        this.fadeIn.bind(this)
-      );
+      Promise
+        .all([this.newContainerLoading, this.fadeOut()])
+        .then(this.fadeIn.bind(this));
     },
 
     fadeOut: function() {
       var deferred = Barba.Utils.deferred();
 
-      anime({
-        targets: this.oldContainer,
-        opacity: 0.5,
-        easing: easingSwing, // swing
-        duration: 300,
-        complete: function(anim) {
-          deferred.resolve();
-        }
-      });
+      // store overlay globally to access in fadein
+      this.$overlay = $('<div class="js-transition-overlay"></div>')
+      this.$overlay.insertAfter(".header");
+      $('body').addClass('is-transitioning');
 
-      return deferred.promise;
+      TweenLite.fromTo(this.$overlay, .6, {
+        x: "0%"
+      }, {
+        x: "100%",
+        ease: Quart.easeIn,
+        onComplete: function() {
+          deferred.resolve()
+        }
+      })
+
+      return deferred.promise
     },
 
     fadeIn: function() {
-      var _this = this;
+      var _this = this; // copy to acces inside animation callbacks
       var $el = $(this.newContainer);
 
       $(this.oldContainer).hide();
 
       $el.css({
-        visibility: "visible",
-        opacity: 0.5
+        'visibility': 'visible'
+      })
+
+      TweenLite.to(window, .2, {
+        scrollTo: 1,
+        ease: easingSwing
       });
 
-      anime({
-        targets: "html, body",
-        scrollTop: 1,
-        easing: easingSwing, // swing
-        duration: 150
-      });
+      AOS.refreshHard()
 
-      anime({
-        targets: this.newContainer,
-        opacity: 1,
-        easing: easingSwing, // swing
-        duration: 300,
-        complete: function(anim) {
+      // TweenLite.set(this.$overlay, {
+      //   rotation: 0.01,
+      //   force3D: true
+      // });
+
+      TweenLite.fromTo(this.$overlay, 1, {
+        x: "100%",
+        overwrite: "all"
+      }, {
+        x: "200%",
+        ease: Expo.easeOut,
+        delay: .2,
+        onComplete: function(){
+          _this.$overlay.remove()
           triggerBody();
+          $('body').removeClass('is-transitioning');
           _this.done();
         }
-      });
+      })
 
-      AOS.refresh();
     }
   });
 
+
+
   // set barba transition
   Barba.Pjax.getTransition = function() {
-    return FadeTransition;
+    // return FadeTransition;
+    return OverlayTransition
   };
 
   Barba.Prefetch.init();
   Barba.Pjax.start();
+
+  // event handlers
+  Barba.Dispatcher.on('linkClicked', function(el) {
+    lastClickEl = el; // save last click to detect transition type
+  });
+
+  Barba.Dispatcher.on('initStateChange', function(currentStatus){
+    var container = Barba.Pjax.Dom.getContainer()
+    var haveContainer = $(container).find('.page__content').length > 0
+
+    if ( !haveContainer){
+      // handle error - redirect ot page regular way
+      window.location.href = currentStatus.url
+    }
+  });
 
   Barba.Dispatcher.on("newPageReady", function(
     currentStatus,
@@ -505,32 +454,23 @@ $(document).ready(function() {
     newPageRawHTML
   ) {
     pageReady();
-    closeMobileMenu();
   });
+
+  Barba.Dispatcher.on('transitionCompleted', function(){
+    getPaginationSections();
+    pagination();
+
+    if ( $(lastClickEl).data('section') ){
+      scrollToSection($($(lastClickEl).attr("href")))
+    }
+  })
 
   // some plugins get bindings onNewPage only that way
   function triggerBody() {
-    _window.scrollTop(0);
     $(window).scroll();
     $(window).resize();
   }
 
-  //////////
-  // MEDIA Condition helper function
-  //////////
-  function mediaCondition(cond) {
-    var disabledBp;
-    var conditionMedia = cond.substring(1);
-    var conditionPosition = cond.substring(0, 1);
-
-    if (conditionPosition === "<") {
-      disabledBp = _window.width() < conditionMedia;
-    } else if (conditionPosition === ">") {
-      disabledBp = _window.width() > conditionMedia;
-    }
-
-    return disabledBp;
-  }
 
   //////////
   // DEVELOPMENT HELPER

@@ -6,6 +6,7 @@
   left: 0
   background: transparent
   z-index: 100
+  transform: translate3d(0,0,0)
   .container
     max-width: 1190px
     padding: 0
@@ -15,7 +16,7 @@
     width: 100%
     padding: 31px 30px
     background: $colorGray
-  
+
   &__btn
     font-size: 14px
     font-family: $extrabold
@@ -52,18 +53,29 @@
       color: #fff
       text-transform: uppercase
       transition: all $transitionSpeed $ease
-      &:hover
+      &:hover, &.is-active
         color: $colorRed
+      // &:focus
+      //   color: #fff
+      // &.is-active
+      //   color: $colorRed
 
-.homepage
+// .homepage
+//   .header
+//     &__menu
+//       a
+//         &:focus
+//           color: #fff
+//         &.is-active
+//           color: $colorRed
+
+body.is-transitioning
   .header
-    &__menu
-      a
-        &:focus
-          color: #fff
-        &.is-active
-          color: $colorRed
-
+    pointer-events: none
+  .header__menu
+    a
+      &.is-active, &:focus, &:hover
+        color: #fff
 
 +r($desktop)
   .header
@@ -81,7 +93,7 @@
       font-size: 12px
       line-height: 1
       padding: 7px 13px
-  
+
 +r($tablet)
   .header
     &__wrapper

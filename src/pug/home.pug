@@ -1,38 +1,37 @@
 ---
 title: Carggo
-bodyClass: homepage
 ---
 extends shared/_layout
 block content
 
   // BEGIN SECTION :: firstscreen
-  section(data-aos='fade-up' data-section='0')
+  section(data-section='0')
     .firstscreen
       .container
-        h1 The First Digital Party Logistics Provider
-        p SaaS driven business delivered to you by the team of logistics experts
+        h1(data-aos='fade-up') The First Digital Party Logistics Provider
+        p(data-aos='fade-up') SaaS driven business delivered to you by the team of logistics experts
   
   // END SECTION :: firstscreen
 
   // BEGIN SECTION :: info
-  section#section-about(data-aos='fade-up' data-section='1')
+  section#section-about(data-section='1')
     .info
       .container
-        p Carggo was created in 2016 to upgrade logistics tools and services. Our team of IT engineers and logistics specialists are continually refining Carggo platform to meet your needs, maintain fair pricing, and open doors to improved operational <br>experiences 
-        p We empower our shippers and carriers to make their <br>own business choices
+        p(data-aos='fade-up') Carggo was created in 2016 to upgrade logistics tools and services. Our team of IT engineers and logistics specialists are continually refining Carggo platform to meet your needs, maintain fair pricing, and open doors to improved operational <br>experiences 
+        p(data-aos='fade-up') We empower our shippers and carriers to make their <br>own business choices
   // END SECTION :: info
 
   // BEGIN SECTION :: freedom
-  section(data-aos='fade-up')
-    .freedom
+  section
+    .freedom(data-aos='fade-up')
       img(src="img/freedom.svg", alt="")
   // END SECTION :: freedom
 
   // BEGIN SECTION :: typical-shippers
-  section#section-for-shippers(data-aos='fade-up' data-section='2')
+  section#section-for-shippers(data-section='2')
     .typical
-      img(src="img/freedom-small.svg", alt="")
-      .container
+      img(src="img/freedom-small.svg" alt="" data-aos='fade-up')
+      .container(data-aos='fade-up')
         p.typical__title SHIPPERS
         p.typical__sub-title We are setting a new level of service reliability  and convenience for our shippers
         .typical__line
@@ -42,36 +41,36 @@ block content
   // END SECTION :: typical-shippers
 
   // BEGIN SECTION :: shippers-advantages
-  section#section-advantages1(data-aos='fade-up')
+  section#section-advantages1
     .advantages
       .container
         .advantages__grid
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon1-1')
             p Full delivery 
               <br>responsibility
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon1-2')
             p Instant fair pricing 
               <br>by the algorithm
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon1-3')
             p User friendly 
               <br>interface
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon1-4')
             p The highest level 
               <br>of transparency
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon1-5')
             p Reliability assured 
               <br>by our best capacity
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon1-6')
             p The fixed service
@@ -81,10 +80,10 @@ block content
   // END SECTION :: shippers-advantages
 
   // BEGIN SECTION :: typical-carriers
-  section#section-for-carriers(data-aos='fade-up' data-section='3')
+  section#section-for-carriers(data-section='3')
     .typical.typical--carriers
-      img(src="img/freedom-small.svg", alt="")
-      .container
+      img(src="img/freedom-small.svg", alt="" data-aos='fade-up')
+      .container(data-aos='fade-up')
         p.typical__title CARRIERS
         p.typical__sub-title We give our carriers flexibility and automated tools that allow them to select their loads
         .typical__line
@@ -94,36 +93,36 @@ block content
   // END SECTION :: typical-carriers
 
   // BEGIN SECTION :: carriers-advantages
-  section#section-advantages2(data-aos='fade-up')
+  section#section-advantages2
     .advantages
       .container
         .advantages__grid
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon2-1')
             p Fair pricing 
               <br>and fast payment
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon2-2')
             p Choose and book 
               <br>your own loads
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon2-3')
             p Reduced empty 
               <br>miles
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon2-4')
             p Automated check-in 
               <br>and e-documentation
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon2-5')
             p Loyalty programs 
               <br>and 24/7 online support
-          .advantages__item
+          .advantages__item(data-aos='fade-up')
             .advantages__icon
               +icon('ico-icon2-6')
             p Easy-to-use 
@@ -132,18 +131,18 @@ block content
   // END SECTION :: carriers-advantages
 
   // BEGIN SECTION :: platform
-  section#section-platform(data-aos='fade-up' data-section='4')
+  section#section-platform(data-section='4')
     .platform
-      .container
+      .container(data-aos='fade-up')
         p.platform__title the platform
         p.platform__sub-title Our 70,000 lines of code don’t lie. Our algorithm adjusts  to your expectations so that you can book your loads  and track them hassle-free. Full scope of tools on our advanced logistical platform is only few taps away
-      img(src="img/platform-uncompressed.jpg", srcset="img/platform-uncompressed@2x.jpg 2x", alt="")
+      img(src="img/platform-uncompressed.jpg", srcset="img/platform-uncompressed@2x.jpg 2x", alt="" data-aos='fade-up')
       .container
         a.platform__btn(href="#section-demo" open-form) get the demo
   // END SECTION :: platform
 
   // BEGIN SECTION :: form-block
-  section#section-demo(data-aos='fade-up')
+  section#section-demo
     .form-block.form-block-hidden
       .container
         .form-block__close
@@ -168,16 +167,16 @@ block content
   // END SECTION :: form-block
 
   // BEGIN SECTION :: team
-  section#section-careers(data-aos='fade-up' data-section='5')
+  section#section-careers(data-section='5')
     .team
-      .container
+      .container(data-aos='fade-up')
         p.team__title The Team
         p.team__sub-title Our team is our core asset. We encourage <br>a cross-disciplinary approach at Carggo. All members of our team can share and learn new skills beyond their direct responsibilities. Check out our exciting career opportunities in Chicago, IL and Vilnius, Lithuania.
         a.team__btn(href="team.html") Apply now
   // END SECTION :: team
 
   // BEGIN SECTION :: contacts
-  section#section-contacts(data-aos='fade-up' data-section='6')
+  section#section-contacts(data-section='6')
     .contacts
       .contacts__map.usa-map.is-active
         iframe(src='https://snazzymaps.com/embed/99764', width='100%', height='100%', style='border:none;')
@@ -185,12 +184,12 @@ block content
         iframe(src='https://snazzymaps.com/embed/99767', width='100%', height='100%', style='border:none;')
 
       .container
-        p.contacts__title Contact us
-        .contacts__item
+        p.contacts__title(data-aos='fade-up') Contact us
+        .contacts__item(data-aos='fade-up')
           a(href="#" js-open-usa) 1315 Macom Dr. Suite #003 <br>Naperville, IL, USA 60564 <br>Phone: +312 635-6005
-        .contacts__item
+        .contacts__item(data-aos='fade-up')
           a(href="#" js-open-lit) Upes 23, GREEN HALL 2, <br>Vilnius 08107, Lithuania <br>Phone: +370 694 202 72
-        .contacts__item
+        .contacts__item(data-aos='fade-up')
           a(href="mailto:info@carggo.com") info@carggo.com
   // END SECTION :: contacts
   
