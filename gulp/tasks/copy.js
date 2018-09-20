@@ -3,7 +3,7 @@ var config = require("../config");
 
 gulp.task("copy:fonts", function() {
   return gulp
-    .src(config.src.fonts + "/*.{woff,woff2}")
+    .src(config.src.fonts + "/**/*.{eot,ttf,svg,woff,woff2}")
     .pipe(gulp.dest(config.dest.fonts));
 });
 
@@ -13,9 +13,9 @@ gulp.task("copy:vendor", function() {
     .pipe(gulp.dest(config.dest.vendor));
 });
 
-gulp.task("copy:rootfiles", function() {
-  return gulp.src(config.src.root + "/*.*").pipe(gulp.dest(config.dest.root));
-});
+// gulp.task("copy:rootfiles", function() {
+//   return gulp.src(config.src.root + "/*.*").pipe(gulp.dest(config.dest.root));
+// });
 
 gulp.task("copy", [
   // 'copy:rootfiles',
@@ -24,6 +24,7 @@ gulp.task("copy", [
 ]);
 
 gulp.task("copy:watch", function() {
+  gulp.watch(config.src.fonts + "/**/*.{woff,woff2}", ["copy:fonts"]);
   gulp.watch(config.src.vendor + "/**/*.*", ["copy:vendor"]);
-  gulp.watch(config.src.root + "/*.*", ["copy:rootfiles"]);
+  // gulp.watch(config.src.root + "/*.*", ["copy:rootfiles"]);
 });

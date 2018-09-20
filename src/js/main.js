@@ -14,8 +14,6 @@ $(document).ready(function() {
     updateHeaderActiveClass();
     // initHeaderScroll();
 
-    initPopups();
-    initSliders();
     initScrollMonitor();
     initMasks();
     initSelectric();
@@ -30,14 +28,6 @@ $(document).ready(function() {
     // development helper
     _window.on("resize", debounce(setBreakpoint, 200));
 
-    // AVAILABLE in _components folder
-    // copy paste in main.js and initialize here
-    // initPerfectScrollbar();
-    // initLazyLoad();
-    // initTeleport();
-    // parseSvg();
-    // revealFooter();
-    // _window.on('resize', throttle(revealFooter, 100));
   }
 
   // this is a master function which should have all functionality
@@ -216,86 +206,9 @@ $(document).ready(function() {
   // SLIDERS
   //////////
 
-  function initSliders() {
-    // EXAMPLE SWIPER
-    new Swiper("[js-slider]", {
-      wrapperClass: "swiper-wrapper",
-      slideClass: "example-slide",
-      direction: "horizontal",
-      loop: false,
-      watchOverflow: true,
-      setWrapperSize: false,
-      spaceBetween: 0,
-      slidesPerView: "auto",
-      // loop: true,
-      normalizeSlideIndex: true,
-      // centeredSlides: true,
-      freeMode: true,
-      // effect: 'fade',
-      autoplay: {
-        delay: 5000
-      },
-      navigation: {
-        nextEl: ".example-next",
-        prevEl: ".example-prev"
-      },
-      breakpoints: {
-        // when window width is <= 992px
-        992: {
-          autoHeight: true
-        }
-      }
-    });
-  }
-
   //////////
   // MODALS
   //////////
-
-  function initPopups() {
-    // Magnific Popup
-    var startWindowScroll = 0;
-    $("[js-popup]").magnificPopup({
-      type: "inline",
-      fixedContentPos: true,
-      fixedBgPos: true,
-      overflowY: "auto",
-      closeBtnInside: true,
-      preloader: false,
-      midClick: true,
-      removalDelay: 300,
-      mainClass: "popup-buble",
-      callbacks: {
-        beforeOpen: function() {
-          startWindowScroll = _window.scrollTop();
-          // $('html').addClass('mfp-helper');
-        },
-        close: function() {
-          // $('html').removeClass('mfp-helper');
-          _window.scrollTop(startWindowScroll);
-        }
-      }
-    });
-
-    $("[js-popup-gallery]").magnificPopup({
-      delegate: "a",
-      type: "image",
-      tLoading: "Загрузка #%curr%...",
-      mainClass: "popup-buble",
-      gallery: {
-        enabled: true,
-        navigateByImgClick: true,
-        preload: [0, 1]
-      },
-      image: {
-        tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-      }
-    });
-  }
-
-  function closeMfp() {
-    $.magnificPopup.close();
-  }
 
   ////////////
   // UI
