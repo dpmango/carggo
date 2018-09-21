@@ -77,6 +77,7 @@
       box-sizing: content-box
       min-height: calc(150px - 24px)
       transition: all $transitionSpeed $ease
+      box-sizing: border-box
       &:focus
         border: 1px solid $colorRed
   &__grid
@@ -100,6 +101,10 @@
       transition: all $transitionSpeed $ease
       &:focus
         border: 1px solid $colorRed
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button
+      -webkit-appearance: none
+      margin: 0
   &__btn
     font-size: 15px
     line-height: 1

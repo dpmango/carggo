@@ -8,6 +8,48 @@ $(document).ready(function() {
   var easingSwing = [0.02, 0.01, 0.47, 1]; // default jQuery easing for anime.js
   var lastClickEl;
 
+  // maps settings
+  // should be on top
+  // var map,
+  //   markers = [],
+  //   markerDefault,
+  //   markerHover,
+  //   markersCoord,
+  //   mapCenter;
+  // function updateMapVars() {
+  //   if ($("#contacts__map").length > 0) {
+  //     markerDefault = {
+  //       url: "img/pin.png",
+  //       scaledSize: new google.maps.Size(44, 60)
+  //     };
+  //     markerHover = {
+  //       url: "img/pin_hover.png",
+  //       scaledSize: new google.maps.Size(44, 60)
+  //     };
+  //     markersCoord = [
+  //       {
+  //         lat: 55.797139,
+  //         lng: 37.6093601,
+  //         marker: markerDefault
+  //       },
+  //       {
+  //         lat: 59.854462,
+  //         lng: 30.4811287,
+  //         marker: markerDefault
+  //       },
+  //       {
+  //         lat: 51.174037,
+  //         lng: 71.4223829,
+  //         marker: markerDefault
+  //       }
+  //     ];
+  //     mapCenter = {
+  //       lat: 54.3181598,
+  //       lng: 48.3837915
+  //     };
+  //   }
+  // }
+
   ////////////
   // READY - triggered when PJAX DONE
   ////////////
@@ -23,18 +65,19 @@ $(document).ready(function() {
   _window.on("scroll", throttle(pagination, 50));
   _window.on("resize", debounce(pagination, 250));
 
-
   function pageReady() {
     initMasks();
     initAutogrow();
     initSelectric();
     initValidations();
 
+    // updateMapVars();
+
+    // initMap();
   }
 
   // this is a master function which should have all functionality
   pageReady();
-
 
   //////////
   // COMMON
@@ -61,8 +104,8 @@ $(document).ready(function() {
     .on("click", '[href="#"]', function(e) {
       e.preventDefault();
     })
-    .on('click', 'a[href]', function(e){
-      if ( Barba.Pjax.transitionProgress ){
+    .on("click", "a[href]", function(e) {
+      if (Barba.Pjax.transitionProgress) {
         e.preventDefault();
         e.stopPropagation();
       }
@@ -76,26 +119,25 @@ $(document).ready(function() {
       // section scroll
       var el = $(this).attr("href");
 
-      if ( $(el).length === 0 ){
-        lastClickEl = $(this).get(0)
-        Barba.Pjax.goTo($('.header__logo').attr('href'))
+      if ($(el).length === 0) {
+        lastClickEl = $(this).get(0);
+        Barba.Pjax.goTo($(".header__logo").attr("href"));
       } else {
-        scrollToSection($(el))
+        scrollToSection($(el));
       }
 
       return false;
     });
 
-  function scrollToSection(el){
-    var headerHeight = $('.header').height();
-    var targetScroll = el.offset().top - headerHeight
+  function scrollToSection(el) {
+    var headerHeight = $(".header").height();
+    var targetScroll = el.offset().top - headerHeight;
 
     TweenLite.to(window, 1, {
       scrollTo: targetScroll,
       ease: easingSwing
     });
   }
-
 
   ////////////////////
   // CHANGE TITLE LOGIN PAGE
@@ -137,7 +179,8 @@ $(document).ready(function() {
   ////////////////////
 
   _document.on("click", "[js-show-pass]", function(e) {
-    e.stopPropagation();
+    e.preventDefault();
+    $(this).toggleClass("show-pass");
     var x = document.getElementById("l2");
     if (x.type === "password") {
       x.type = "text";
@@ -173,20 +216,20 @@ $(document).ready(function() {
   ////////////
   // UI
   ////////////
-  function initAutogrow(){
-    if ( $('[js-autogrow]').length > 0) {
-      $('[js-autogrow]').each(function(i, el){
-        new Autogrow(el)
-      })
+  function initAutogrow() {
+    if ($("[js-autogrow]").length > 0) {
+      $("[js-autogrow]").each(function(i, el) {
+        new Autogrow(el);
+      });
     }
   }
 
   // Masked input
   function initMasks() {
     $("[js-dateMask]").mask("99.99.99", { placeholder: "ДД.ММ.ГГ" });
-    $("input[type='tel']").mask("+7 (000) 000-0000", {
-      placeholder: "+7 (___) ___-____"
-    });
+    // $("input[type='tel']").mask("(000) 000-0000", {
+    //   placeholder: "+7 (___) ___-____"
+    // });
   }
 
   // selectric
@@ -198,6 +241,117 @@ $(document).ready(function() {
     });
   }
 
+  //////////
+  // MAP
+  //////////
+
+  function initMap() {
+    if ($("#contacts__map").length) {
+      map = new google.maps.Map(document.getElementById("contacts__map"), {
+        center: mapCenter,
+        zoom: 4,
+        disableDefaultUI: true,
+        styles: [
+          {
+            featureType: "administrative",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#636363"
+              }
+            ]
+          },
+          {
+            featureType: "landscape",
+            elementType: "all",
+            stylers: [
+              {
+                color: "#fffcf2"
+              }
+            ]
+          },
+          {
+            featureType: "water",
+            elementType: "all",
+            stylers: [
+              {
+                color: "#aad3e6"
+              },
+              {
+                visibility: "on"
+              }
+            ]
+          }
+        ]
+      });
+
+      $.each(markersCoord, function(i, coords) {
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(coords.lat, coords.lng),
+          map: map,
+          icon: coords.marker
+        });
+        markers.push(marker);
+
+        // click handler
+        google.maps.event.addListener(marker, "click", function() {
+          changeMapsMarker(null, marker);
+        });
+      });
+    }
+  }
+
+  // change marker onclick
+  _document
+    .on("mouseenter", ".contacts__address", function() {
+      var markerId = $(this).data("marker-id") - 1;
+      if (markerId !== undefined) {
+        changeMapsMarker(markerId);
+      }
+    })
+    .on("mouseleave", ".contacts__address", function() {
+      changeMapsMarker(null, null, true);
+    });
+
+  function changeMapsMarker(id, marker, clear) {
+    if (id !== null) {
+    } else if (marker !== null) {
+      id = markers.indexOf(marker); // get id
+    }
+    var targetMarker = markers[id];
+
+    // maps controls
+    if (targetMarker) {
+      // reset all markers first
+      $.each(markers, function(i, m) {
+        m.setIcon(markerDefault);
+      });
+
+      targetMarker.setIcon(markerHover); // set target new image
+
+      map.panTo(targetMarker.getPosition());
+
+      // set active class
+      var linkedControl = $(
+        ".contacts__address[data-marker-id=" + (id + 1) + "]"
+      );
+
+      if (linkedControl.length > 0) {
+        $(".contacts__address").removeClass("is-active");
+        linkedControl.addClass("is-active");
+      }
+    }
+
+    if (clear) {
+      // reset all markers first
+      $.each(markers, function(i, m) {
+        m.setIcon(markerDefault);
+      });
+
+      $(".contacts__address").removeClass("is-active");
+      map.panTo(mapCenter);
+    }
+  }
 
   ////////////////
   // FORM VALIDATIONS
@@ -245,7 +399,7 @@ $(document).ready(function() {
     var validatePhone = {
       required: true,
       normalizer: function(value) {
-        var PHONE_MASK = "+X (XXX) XXX-XXXX";
+        var PHONE_MASK = "(XXX) XXX-XXXX";
         if (!value || value === PHONE_MASK) {
           return value;
         } else {
@@ -305,7 +459,7 @@ $(document).ready(function() {
   //////////
   // PAGINATION
   //////////
-  var paginationAnchors, sections
+  var paginationAnchors, sections;
 
   function getPaginationSections() {
     paginationAnchors = $(".header__menu .header__menu-link");
@@ -317,15 +471,14 @@ $(document).ready(function() {
     var headerHeight = $(".header").height();
     var vScroll = _window.scrollTop();
 
-    if ( sections.length === 0 ){
-      paginationAnchors
-        .removeClass("is-active")
-      return false
+    if (sections.length === 0) {
+      paginationAnchors.removeClass("is-active");
+      return false;
     }
 
     // Get id of current scroll item
     var cur = sections.map(function() {
-      if ($(this).offset().top <= vScroll + headerHeight) return this;
+      if ($(this).offset().top <= vScroll + headerHeight / 0.99) return this;
     });
     // Get current element
     cur = $(cur[cur.length - 1]);
@@ -346,30 +499,35 @@ $(document).ready(function() {
 
   var OverlayTransition = Barba.BaseTransition.extend({
     start: function() {
-      Promise
-        .all([this.newContainerLoading, this.fadeOut()])
-        .then(this.fadeIn.bind(this));
+      Promise.all([this.newContainerLoading, this.fadeOut()]).then(
+        this.fadeIn.bind(this)
+      );
     },
 
     fadeOut: function() {
       var deferred = Barba.Utils.deferred();
 
       // store overlay globally to access in fadein
-      this.$overlay = $('<div class="js-transition-overlay"></div>')
+      this.$overlay = $('<div class="js-transition-overlay"></div>');
       this.$overlay.insertAfter(".header");
-      $('body').addClass('is-transitioning');
+      $("body").addClass("is-transitioning");
 
-      TweenLite.fromTo(this.$overlay, .6, {
-        x: "0%"
-      }, {
-        x: "100%",
-        ease: Quart.easeIn,
-        onComplete: function() {
-          deferred.resolve()
+      TweenLite.fromTo(
+        this.$overlay,
+        0.6,
+        {
+          x: "0%"
+        },
+        {
+          x: "100%",
+          ease: Quart.easeIn,
+          onComplete: function() {
+            deferred.resolve();
+          }
         }
-      })
+      );
 
-      return deferred.promise
+      return deferred.promise;
     },
 
     fadeIn: function() {
@@ -379,62 +537,64 @@ $(document).ready(function() {
       $(this.oldContainer).hide();
 
       $el.css({
-        'visibility': 'visible'
-      })
+        visibility: "visible"
+      });
 
-      TweenLite.to(window, .2, {
+      TweenLite.to(window, 0.2, {
         scrollTo: 1,
         ease: easingSwing
       });
 
-      AOS.refreshHard()
+      AOS.refreshHard();
 
       // TweenLite.set(this.$overlay, {
       //   rotation: 0.01,
       //   force3D: true
       // });
 
-      TweenLite.fromTo(this.$overlay, 1, {
-        x: "100%",
-        overwrite: "all"
-      }, {
-        x: "200%",
-        ease: Expo.easeOut,
-        delay: .2,
-        onComplete: function(){
-          _this.$overlay.remove()
-          triggerBody();
-          $('body').removeClass('is-transitioning');
-          _this.done();
+      TweenLite.fromTo(
+        this.$overlay,
+        1,
+        {
+          x: "100%",
+          overwrite: "all"
+        },
+        {
+          x: "200%",
+          ease: Expo.easeOut,
+          delay: 0.2,
+          onComplete: function() {
+            _this.$overlay.remove();
+            triggerBody();
+            $("body").removeClass("is-transitioning");
+            _this.done();
+          }
         }
-      })
-
+      );
     }
   });
-
-
 
   // set barba transition
   Barba.Pjax.getTransition = function() {
     // return FadeTransition;
-    return OverlayTransition
+    return OverlayTransition;
   };
 
   Barba.Prefetch.init();
   Barba.Pjax.start();
 
   // event handlers
-  Barba.Dispatcher.on('linkClicked', function(el) {
+  Barba.Dispatcher.on("linkClicked", function(el) {
     lastClickEl = el; // save last click to detect transition type
   });
 
-  Barba.Dispatcher.on('initStateChange', function(currentStatus){
-    var container = Barba.Pjax.Dom.getContainer()
-    var haveContainer = $(container).find('.page__content').length > 0
+  Barba.Dispatcher.on("initStateChange", function(currentStatus) {
+    var container = Barba.Pjax.Dom.getContainer();
+    var haveContainer = $(container).find(".page__content").length > 0;
 
-    if ( !haveContainer){
+    if (!haveContainer) {
       // handle error - redirect ot page regular way
-      window.location.href = currentStatus.url
+      window.location.href = currentStatus.url;
     }
   });
 
@@ -447,21 +607,20 @@ $(document).ready(function() {
     pageReady();
   });
 
-  Barba.Dispatcher.on('transitionCompleted', function(){
+  Barba.Dispatcher.on("transitionCompleted", function() {
     getPaginationSections();
     pagination();
 
-    if ( $(lastClickEl).data('section') ){
-      scrollToSection($($(lastClickEl).attr("href")))
+    if ($(lastClickEl).data("section")) {
+      scrollToSection($($(lastClickEl).attr("href")));
     }
-  })
+  });
 
   // some plugins get bindings onNewPage only that way
   function triggerBody() {
     $(window).scroll();
     $(window).resize();
   }
-
 
   //////////
   // DEVELOPMENT HELPER

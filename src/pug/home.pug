@@ -1,5 +1,5 @@
 ---
-title: Carggo
+title: FIRST DIGITAL PARTY LOGISTICS PROVIDER
 ---
 extends shared/_layout
 block content
@@ -159,7 +159,7 @@ block content
               input#t2(type="text" name="email" required)
             .form-block__item
               label(for="t3") Phone
-              input#t3(type="tel" name="phone" required)
+              input#t3(type="number" name="phone" required)
           .form-block__textarea
             label(for="t4") Message
             textarea(js-autogrow rows="5")#t4
@@ -178,10 +178,11 @@ block content
   // BEGIN SECTION :: contacts
   section#section-contacts(data-section='6')
     .contacts
-      .contacts__map.usa-map.is-active
-        iframe(src='https://snazzymaps.com/embed/99764', width='100%', height='100%', style='border:none;')
-      .contacts__map.lit-map
-        iframe(src='https://snazzymaps.com/embed/99767', width='100%', height='100%', style='border:none;')
+      .contacts__map#contacts__map
+      //- .contacts__map.usa-map.is-active
+      //-   iframe(src='https://snazzymaps.com/embed/99764', width='100%', height='100%', style='border:none;')
+      //- .contacts__map.lit-map
+      //-   iframe(src='https://snazzymaps.com/embed/99767', width='100%', height='100%', style='border:none;')
 
       .container
         p.contacts__title(data-aos='fade-up') Contact us
