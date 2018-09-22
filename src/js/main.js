@@ -432,16 +432,12 @@ $(document).ready(function() {
   }
 
   // change marker onclick
-  _document
-    .on("mouseenter", ".contacts__address", function() {
-      var markerId = $(this).data("marker-id") - 1;
-      if (markerId !== undefined) {
-        changeMapsMarker(markerId);
-      }
-    })
-    .on("mouseleave", ".contacts__address", function() {
-      changeMapsMarker(null, null, true);
-    });
+  _document.on("click", ".contacts__address", function() {
+    var markerId = $(this).data("marker-id") - 1;
+    if (markerId !== undefined) {
+      changeMapsMarker(markerId);
+    }
+  });
 
   function changeMapsMarker(id, marker, clear) {
     if (id !== null) {
