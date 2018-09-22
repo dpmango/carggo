@@ -10,45 +10,40 @@ $(document).ready(function() {
 
   // maps settings
   // should be on top
-  // var map,
-  //   markers = [],
-  //   markerDefault,
-  //   markerHover,
-  //   markersCoord,
-  //   mapCenter;
-  // function updateMapVars() {
-  //   if ($("#contacts__map").length > 0) {
-  //     markerDefault = {
-  //       url: "img/pin.png",
-  //       scaledSize: new google.maps.Size(44, 60)
-  //     };
-  //     markerHover = {
-  //       url: "img/pin_hover.png",
-  //       scaledSize: new google.maps.Size(44, 60)
-  //     };
-  //     markersCoord = [
-  //       {
-  //         lat: 55.797139,
-  //         lng: 37.6093601,
-  //         marker: markerDefault
-  //       },
-  //       {
-  //         lat: 59.854462,
-  //         lng: 30.4811287,
-  //         marker: markerDefault
-  //       },
-  //       {
-  //         lat: 51.174037,
-  //         lng: 71.4223829,
-  //         marker: markerDefault
-  //       }
-  //     ];
-  //     mapCenter = {
-  //       lat: 54.3181598,
-  //       lng: 48.3837915
-  //     };
-  //   }
-  // }
+  var map,
+    markers = [],
+    markerDefault,
+    markerHover,
+    markersCoord,
+    mapCenter;
+  function updateMapVars() {
+    if ($("#contacts__map").length > 0) {
+      markerDefault = {
+        url: "img/pin.svg",
+        scaledSize: new google.maps.Size(31, 44)
+      };
+      markerHover = {
+        url: "img/pin.svg",
+        scaledSize: new google.maps.Size(31, 44)
+      };
+      markersCoord = [
+        {
+          lat: 41.729992,
+          lng: -88.20742,
+          marker: markerDefault
+        },
+        {
+          lat: 54.695636,
+          lng: 25.259746,
+          marker: markerDefault
+        }
+      ];
+      mapCenter = {
+        lat: 41.729992,
+        lng: -88.20742
+      };
+    }
+  }
 
   ////////////
   // READY - triggered when PJAX DONE
@@ -66,14 +61,14 @@ $(document).ready(function() {
   _window.on("resize", debounce(pagination, 250));
 
   function pageReady() {
+    updateMapVars();
+
     initMasks();
     initAutogrow();
     initSelectric();
     initValidations();
 
-    // updateMapVars();
-
-    // initMap();
+    initMap();
   }
 
   // this is a master function which should have all functionality
@@ -249,36 +244,171 @@ $(document).ready(function() {
     if ($("#contacts__map").length) {
       map = new google.maps.Map(document.getElementById("contacts__map"), {
         center: mapCenter,
-        zoom: 4,
-        disableDefaultUI: true,
+        zoom: 15,
+        disableDefaultUI: false,
         styles: [
           {
-            featureType: "administrative",
+            featureType: "all",
             elementType: "labels.text.fill",
             stylers: [
               {
-                color: "#636363"
+                saturation: 36
+              },
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 40
+              }
+            ]
+          },
+          {
+            featureType: "all",
+            elementType: "labels.text.stroke",
+            stylers: [
+              {
+                visibility: "on"
+              },
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 16
+              }
+            ]
+          },
+          {
+            featureType: "all",
+            elementType: "labels.icon",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "administrative",
+            elementType: "geometry.fill",
+            stylers: [
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 20
+              }
+            ]
+          },
+          {
+            featureType: "administrative",
+            elementType: "geometry.stroke",
+            stylers: [
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 17
+              },
+              {
+                weight: 1.2
               }
             ]
           },
           {
             featureType: "landscape",
-            elementType: "all",
+            elementType: "geometry",
             stylers: [
               {
-                color: "#fffcf2"
+                color: "#000000"
+              },
+              {
+                lightness: 20
+              }
+            ]
+          },
+          {
+            featureType: "poi",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 21
+              }
+            ]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry.fill",
+            stylers: [
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 17
+              }
+            ]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry.stroke",
+            stylers: [
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 29
+              },
+              {
+                weight: 0.2
+              }
+            ]
+          },
+          {
+            featureType: "road.arterial",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 18
+              }
+            ]
+          },
+          {
+            featureType: "road.local",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 16
+              }
+            ]
+          },
+          {
+            featureType: "transit",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#000000"
+              },
+              {
+                lightness: 19
               }
             ]
           },
           {
             featureType: "water",
-            elementType: "all",
+            elementType: "geometry",
             stylers: [
               {
-                color: "#aad3e6"
+                color: "#000000"
               },
               {
-                visibility: "on"
+                lightness: 17
               }
             ]
           }
