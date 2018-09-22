@@ -28,8 +28,7 @@
     margin-left: -3px
     position: relative
     z-index: 5
-  address,
-  a
+  address, &__mail
     display: inline-block
     max-width: 280px
     color: #fff
@@ -42,6 +41,10 @@
     pointer-events: auto
     &:hover
       color: $colorRed
+    &.is-active
+      a
+        color: $colorRed
+
   &__map
     position: absolute
     z-index: 1
@@ -51,9 +54,7 @@
     height: 100%
     opacity: 1
     transition: all $transitionSpeed $ease
-    *
-      // transition: all $transitionSpeed $ease
-
+    
 +r($tablet)
   .contacts
     padding: 53px 0 142px

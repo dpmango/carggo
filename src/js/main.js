@@ -13,16 +13,11 @@ $(document).ready(function() {
   var map,
     markers = [],
     markerDefault,
-    markerHover,
     markersCoord,
     mapCenter;
   function updateMapVars() {
     if ($("#contacts__map").length > 0) {
       markerDefault = {
-        url: "img/pin.svg",
-        scaledSize: new google.maps.Size(31, 44)
-      };
-      markerHover = {
         url: "img/pin.svg",
         scaledSize: new google.maps.Size(31, 44)
       };
@@ -245,174 +240,17 @@ $(document).ready(function() {
       map = new google.maps.Map(document.getElementById("contacts__map"), {
         center: mapCenter,
         zoom: 15,
+        // gestureHandling: 'greedy',
+        // scrollwheel: false,
         disableDefaultUI: false,
-        styles: [
-          {
-            featureType: "all",
-            elementType: "labels.text.fill",
-            stylers: [
-              {
-                saturation: 36
-              },
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 40
-              }
-            ]
-          },
-          {
-            featureType: "all",
-            elementType: "labels.text.stroke",
-            stylers: [
-              {
-                visibility: "on"
-              },
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 16
-              }
-            ]
-          },
-          {
-            featureType: "all",
-            elementType: "labels.icon",
-            stylers: [
-              {
-                visibility: "off"
-              }
-            ]
-          },
-          {
-            featureType: "administrative",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 20
-              }
-            ]
-          },
-          {
-            featureType: "administrative",
-            elementType: "geometry.stroke",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 17
-              },
-              {
-                weight: 1.2
-              }
-            ]
-          },
-          {
-            featureType: "landscape",
-            elementType: "geometry",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 20
-              }
-            ]
-          },
-          {
-            featureType: "poi",
-            elementType: "geometry",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 21
-              }
-            ]
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry.fill",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 17
-              }
-            ]
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry.stroke",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 29
-              },
-              {
-                weight: 0.2
-              }
-            ]
-          },
-          {
-            featureType: "road.arterial",
-            elementType: "geometry",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 18
-              }
-            ]
-          },
-          {
-            featureType: "road.local",
-            elementType: "geometry",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 16
-              }
-            ]
-          },
-          {
-            featureType: "transit",
-            elementType: "geometry",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 19
-              }
-            ]
-          },
-          {
-            featureType: "water",
-            elementType: "geometry",
-            stylers: [
-              {
-                color: "#000000"
-              },
-              {
-                lightness: 17
-              }
-            ]
-          }
-        ]
+        zoomControl: true,
+        mapTypeControl: false,
+        scaleControl: true,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        styles:[{featureType:"all",elementType:"labels.text.fill",stylers:[{saturation:36},{color:"#000000"},{lightness:40}]},{featureType:"all",elementType:"labels.text.stroke",stylers:[{visibility:"on"},{color:"#000000"},{lightness:16}]},{featureType:"all",elementType:"labels.icon",stylers:[{visibility:"off"}]},{featureType:"administrative",elementType:"geometry.fill",stylers:[{color:"#000000"},{lightness:20}]},{featureType:"administrative",elementType:"geometry.stroke",stylers:[{color:"#000000"},{lightness:17},{weight:1.2}]},{featureType:"landscape",elementType:"geometry",stylers:[{color:"#000000"},{lightness:20}]},{featureType:"poi",elementType:"geometry",stylers:[{color:"#000000"},{lightness:21}]},{featureType:"road.highway",elementType:"geometry.fill",stylers:[{color:"#000000"},{lightness:17}]},{featureType:"road.highway",elementType:"geometry.stroke",stylers:[{color:"#000000"},{lightness:29},{weight:.2}]},{featureType:"road.arterial",elementType:"geometry",stylers:[{color:"#000000"},{lightness:18}]},{featureType:"road.local",elementType:"geometry",stylers:[{color:"#000000"},{lightness:16}]},{featureType:"transit",elementType:"geometry",stylers:[{color:"#000000"},{lightness:19}]},{featureType:"water",elementType:"geometry",stylers:[{color:"#000000"},{lightness:17}]}]
       });
 
       $.each(markersCoord, function(i, coords) {
@@ -440,27 +278,22 @@ $(document).ready(function() {
   });
 
   function changeMapsMarker(id, marker, clear) {
-    if (id !== null) {
-    } else if (marker !== null) {
-      id = markers.indexOf(marker); // get id
+    if ( id !== null){
+    } else if ( marker !== null ){
+      id = markers.indexOf(marker) // get id
     }
     var targetMarker = markers[id];
 
     // maps controls
     if (targetMarker) {
-      // reset all markers first
-      $.each(markers, function(i, m) {
-        m.setIcon(markerDefault);
-      });
-
-      targetMarker.setIcon(markerHover); // set target new image
-
       map.panTo(targetMarker.getPosition());
 
       // set active class
       var linkedControl = $(
         ".contacts__address[data-marker-id=" + (id + 1) + "]"
       );
+
+      console.log(linkedControl)
 
       if (linkedControl.length > 0) {
         $(".contacts__address").removeClass("is-active");
@@ -469,11 +302,6 @@ $(document).ready(function() {
     }
 
     if (clear) {
-      // reset all markers first
-      $.each(markers, function(i, m) {
-        m.setIcon(markerDefault);
-      });
-
       $(".contacts__address").removeClass("is-active");
       map.panTo(mapCenter);
     }
