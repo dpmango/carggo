@@ -47,7 +47,6 @@ $(document).ready(function() {
   // single time initialization
   legacySupport();
   initaos();
-  _window.on("resize", debounce(setBreakpoint, 200));
 
   // on transition change
   getPaginationSections();
@@ -64,6 +63,7 @@ $(document).ready(function() {
     initValidations();
 
     initMap();
+    _window.on("resize", debounce(initMap, 250))
   }
 
   // this is a master function which should have all functionality
@@ -236,7 +236,7 @@ $(document).ready(function() {
   //////////
 
   function initMap() {
-    if ($("#contacts__map").length) {
+    if ($("#contacts__map").length && _window.width() > 768 && !map) {
       map = new google.maps.Map(document.getElementById("contacts__map"), {
         center: mapCenter,
         zoom: 15,
@@ -271,10 +271,16 @@ $(document).ready(function() {
 
   // change marker onclick
   _document.on("click", ".contacts__address", function() {
-    var markerId = $(this).data("marker-id") - 1;
-    if (markerId !== undefined) {
-      changeMapsMarker(markerId);
+    if ( _window.width() <= 768 ){
+      var tel = $(this).find('a').text()
+      window.location.href = 'tel:'+tel+'';
+    } else {
+      var markerId = $(this).data("marker-id") - 1;
+      if (markerId !== undefined) {
+        changeMapsMarker(markerId);
+      }
     }
+
   });
 
   function changeMapsMarker(id, marker, clear) {
@@ -292,8 +298,6 @@ $(document).ready(function() {
       var linkedControl = $(
         ".contacts__address[data-marker-id=" + (id + 1) + "]"
       );
-
-      console.log(linkedControl)
 
       if (linkedControl.length > 0) {
         $(".contacts__address").removeClass("is-active");
@@ -574,27 +578,5 @@ $(document).ready(function() {
   function triggerBody() {
     $(window).scroll();
     $(window).resize();
-  }
-
-  //////////
-  // DEVELOPMENT HELPER
-  //////////
-  function setBreakpoint() {
-    var wHost = window.location.host.toLowerCase();
-    var displayCondition =
-      wHost.indexOf("localhost") >= 0 || wHost.indexOf("surge") >= 0;
-    if (displayCondition) {
-      var wWidth = _window.width();
-
-      var content = "<div class='dev-bp-debug'>" + wWidth + "</div>";
-
-      $(".page").append(content);
-      setTimeout(function() {
-        $(".dev-bp-debug").fadeOut();
-      }, 1000);
-      setTimeout(function() {
-        $(".dev-bp-debug").remove();
-      }, 1500);
-    }
   }
 });
