@@ -427,7 +427,9 @@ $(document).ready(function() {
   function pagination() {
     // Cache selectors
     var headerHeight = $(".header").height();
+    var footerHeight = $(".footer").height();
     var vScroll = _window.scrollTop();
+    var vScrollBottom = _document.height() - _window.height() - vScroll
 
     if (sections.length === 0) {
       paginationAnchors.removeClass("is-active");
@@ -441,6 +443,10 @@ $(document).ready(function() {
     // Get current element
     cur = $(cur[cur.length - 1]);
     var id = cur && cur.length ? cur.data("section") : "1";
+
+    if ( vScrollBottom < footerHeight ){
+      id = $(sections[sections.length - 1]).data("section")
+    }
 
     // Set/remove active class
     paginationAnchors
